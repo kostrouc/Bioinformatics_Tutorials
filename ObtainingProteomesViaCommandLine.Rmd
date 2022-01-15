@@ -1,0 +1,96 @@
+---
+title: "Downloading Proteomes from NCBI"
+author: "Katie Ostrouchov"
+date: "January 15th, 2022"
+output: html_document
+---
+
+This bash code will walk you through how to download proteomes through the command-line for reference organisms off NCBI.org
+
+Command Line Tools needed:
+
+How to install ncbi_datasets: https://www.ncbi.nlm.nih.gov/datasets/docs/v1/quickstarts/command-line-tools/
+How to install jq to parse the .json files: brew install jq
+To work on multiple cores install parallel: brew install parallel
+
+Script A. Downloading Proteome/s for a Single OTU off NCBI
+```{bash}
+conda activate ncbi_datasets #this will allow conda to access and execute the ncbi_datasets commands package that you downloaded
+
+#Obtaining RefSeq reference proteome for single organism (Can be common name, family, genus, or taxonomy id, etc..)
+datasets download genome taxon "Bacillus coagulans" --exclude-gff3 --exclude-rna --exclude-seq --exclude-genomic-cds --reference --dehydrated --filename Bacilluscoagulans.zip 
+unzip Bacilluscoagulans.zip -d Bacilluscoagulans #unzip the file and provide name of the directory
+mkdir ./lists
+dataformat excel genome --inputfile Bacilluscoagulans/ncbi_dataset/data/assembly_data_report.jsonl --fields organism-name,tax-id,assminfo-refseq-assm-accession -o ./lists/Bacilluscoagulans.xlsx 
+#An excel document with a list of the organism name, taxonomy id, and RefSeq accession for the specified organism will be created and placed in the folder called lists. If you provided a genus name, it will list all the species within that genus for the reference genomes you can obtain. If the name does not exist on ncbi, there will be no output & or directory created & it will inform you that there was not a match.
+
+#To look at the parameters of the datasets package type:
+datasets download -h
+#This will list the things you can exclude or include for download. If you want to download all the proteomes associated with that organism classifier off NCBI, simply remove the --reference from the script.
+
+#After reviewing the excel document, make a decision on what taxonomy you would like to proceed with to download the reference protoemes. If you would like all of them, proceed to the next step to "rehydrate" your zip file and obtain the proteomes. If you would like to hand select a few, save their names or ids in a text file and upload them into the next script in B.
+```
+Script B. Downloading Proteomes for Multiple OTUs off NCBI
+```{bash}
+#Step One. create a text file with your list of names or ids (hit control +D when done writing your text file)
+cat > otus.txt
+Bacillus coagulans
+Bacteriodes
+nonsense
+#control^D
+------------------------------------------------------------------------------------------------------------------------------
+#Step Two. Obtain the Dehydrated Package or .json file to view what is available for download
+FILE="otus.txt" #assigning my file to a variable
+while read line; do #starts a loop to read each line of the text file and use that line as input
+FNAM="${line/ /_}" #replaces the space in the name with a _ for correct file naming
+datasets download genome taxon "$line" --exclude-gff3 --exclude-rna --exclude-seq --exclude-genomic-cds --reference --dehydrated --filename ${FNAM}.zip #downloadding dehydrated package
+unzip ${FNAM}.zip -d ${FNAM} #unzipping package
+dataformat excel genome --inputfile ${FNAM}/ncbi_dataset/data/assembly_data_report.jsonl --fields organism-name,tax-id,assminfo-refseq-assm-accession -o ./lists/${FNAM}.xlsx #creating xlsx files with "Organism name", "Taxonomic ID", "Assembly RefSeq Accession"
+done <$FILE
+
+#For additional information on the dataformat command type:
+dataformat -h
+#It will list what values you can grab from the .jsonl. 
+
+#Additionally, if you don't want to download the dehyrated package and save space on your computer you can obtain only the .json file and look through it using the jq tool like so:
+mkdir ./Bacillus/
+datasets summary genome taxon "Bacillus" --reference --limit all >  ./Bacillus/Bacillus.json
+cat Bacillus.json | jq -r '.assemblies[].assembly|[.assembly_accession,.org.tax_id,.org.sci_name]|@text' > ./lists/Bacillus.txt
+#This will obtain the tax_id, organism name, and RefSeq accesion and place it into a text for you to view. However, the .json file is quite difficult to search using jq so it is much easier to use the dataformat tool, instead, as described above
+--------------------------------------------------------------------------------------------------------------------------------
+#Step Three. Rehydrate the package. If you like everything in it proceed with this step. If you want to hand select some. Run the above code again to obtain only the dehydrated packages you wish to obtain the proteomes from. Make a new otus.txt file with the accessions you want the proteomes from and plug them into step two again. After you do this, you may proceed to the next step.
+
+#Rehydrate the single directory to obtain the protein.faa files
+REHY=rehydrate.txt #assuming there are spaces in the names still (Script will refill with the _ using the names you provided)
+while read line; do 
+REHY1="${line/ /_}" #adding the _ where the space is to find the directory
+datasets rehydrate --directory ${REHY1}/ #directories will have the same name as your OTUs from the file you provided.
+done <$REHY
+
+#Now we need to move & rename the protein.faa files. Datasets outputs "protein.faa" for all the files, and we will need to rename and move them.
+
+pwd #check that you are in the same directory where your datasets command was run
+
+for f in ./*/ncbi_dataset/data/*; do #It's looking for this similar folder structure that datasets outputs. Do not forget the "./" before the folder!!
+out1=$( echo $f | cut -f 2 -d'/') #It's making a folder named after the OTU folder you provided
+mkdir ./proteins/$(basename $out1) #It's creating the folder you just named after each different otu
+done
+#This makes directories based off the otu name
+
+#Make sure your file structure looks like this next line before you proceed! The * corresponds to values that are different and it selects all of them based off if they match this structure.
+for b in ./*/ncbi_dataset/data/*/protein.faa; do
+out2=$( echo $b | cut -f 2,5 -d'/')
+mv $b proteins/${out2}.faa #replace mv with cp to try a copy before you move them to MAKE SURE it's going where you want it to and it won't disapear
+done
+#This moves the protein.faa files to the otu directories and renames them based off their GCF accession
+
+#You're done! Congratulations, your proteome files should be stored in the ./proteins/ folder you created and named by their RefSeq accession. They are .faa format. 
+
+#If you need them in .fasta format for upload into Proteome Discoverer, proceed to this next step:
+cd ./proteins/
+mv ./*/*.faa ./*/*.fasta
+
+#close terminal or type:
+conda deactivate #to end use of conda package
+```
+
