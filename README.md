@@ -1,5 +1,5 @@
 # Bioinformatics_Tutorials
-These tutorials walk through various packages that can assist with omics data processing for bioinformaticians
+These tutorials walk through various packages that can assist with omics data processing for bioinformaticians.
 
 
 SCRIPT ONE. HOW TO OBTAIN MULTIPLE PROTEOMES OFF NCBI.ORG USING NCBI_DATASETS
