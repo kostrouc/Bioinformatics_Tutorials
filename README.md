@@ -13,7 +13,7 @@ Ostrouchov, K. (2022). How to obtain multiple proteomes off ncbi.org and uniprot
 
 References: 
 
-Datasets-NCBI [Internet]. Bethesda (MD): National Library of Medicine (US), National Center for Biotechnology Information; 2021 – [cited YYYY Mmm DD]. Available   from: https://www.ncbi.nlm.nih.gov/datasets/
+Datasets-NCBI [Internet]. Bethesda (MD): National Library of Medicine (US), National Center for Biotechnology Information; 2021 – [cited 2022 01 15]. Available   from: https://www.ncbi.nlm.nih.gov/datasets/
 
 Dolan, K. et. al. (2017). jq. github.org. Available from: https://github.com/stedolan/jq
 
