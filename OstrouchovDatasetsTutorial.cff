@@ -3,6 +3,6 @@ message: "If you use this script please cite it as below."
 authors:
   - family-names: kostrouc
     given-names: Katherine Ostrouchov
-title: "Scripts for downloading proteomes using conda ncbi_datasets package"
+title: "Scripts for downloading proteomes off NCBI.org and UniProt.org"
 version: 2.0.4
 date-released: 2022-01-15
