@@ -13,6 +13,6 @@ Datasets-NCBI [Internet]. Bethesda (MD): National Library of Medicine (US), Nati
 
 Dolan, K. et. al. (2017). jq. github.org. Available from: https://github.com/stedolan/jq
 
-Ostrouchov, K. (2022). How to obtain multiple proteomes off ncbi.org using ncbi_datasets. github.org. Available from: https://github.com/kostrouc/Bioinformatics_Tutorials/
+Ostrouchov, K. (2022). How to obtain multiple proteomes off ncbi.org and uniprot.org. github.org. Available from: https://github.com/kostrouc/Bioinformatics_Tutorials/
 
 (2020) Programmatic access - Downloading data at every UniProt release. UniProt. Available from: https://www.uniprot.org/help/api_downloading
