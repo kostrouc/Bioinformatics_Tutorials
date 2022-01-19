@@ -1,19 +1,17 @@
 ---
-title: "Downloading Proteomes from NCBI"
+title: "Downloading Proteomes from NCBI & UniProt"
 author: "Katie Ostrouchov"
-date: "January 15th, 2022"
+date: "January 19th, 2022"
 output: html_document
 ---
 
-This bash code will walk you through how to download proteomes through the command-line for reference organisms off NCBI.org
-
-Command Line Tools needed:
+This bash code will walk you through how to download proteomes through the command-line for reference organisms off NCBI.org and off UniProt.org
 
 How to install ncbi_datasets: https://www.ncbi.nlm.nih.gov/datasets/docs/v1/quickstarts/command-line-tools/
 How to install jq to parse the .json files: brew install jq
-To work on multiple cores install parallel: brew install parallel
 
-Script A. Downloading Proteome/s for a Single OTU off NCBI
+**Script A. Downloading Proteome/s for a Single OTU off NCBI**
+You will need this first script to determine roughly how many reference proteomes exists for a single OTU and to save an excel file of information on the reference organisms you want to obtain. If not, you can proceed to Script B or C to download off RefSeq or UniProt.
 ```{bash}
 conda activate ncbi_datasets #this will allow conda to access and execute the ncbi_datasets commands package that you downloaded
 
@@ -30,7 +28,8 @@ datasets download -h
 
 #After reviewing the excel document, make a decision on what taxonomy you would like to proceed with to download the reference protoemes. If you would like all of them, proceed to the next step to "rehydrate" your zip file and obtain the proteomes. If you would like to hand select a few, save their names or ids in a text file and upload them into the next script in B.
 ```
-Script B. Downloading Proteomes for Multiple OTUs off NCBI
+**Script B. Downloading Proteomes off NCBI via Command-Line**
+Input is a list of OTUs, common name, or taxids. Output is RefSeq reference proteomes.
 ```{bash}
 #Step One. create a text file with your list of names or ids (hit control +D when done writing your text file)
 cat > otus.txt
@@ -91,6 +90,83 @@ cd ./proteins/
 mv ./*/*.faa ./*/*.fasta
 
 #close terminal or type:
-conda deactivate #to end use of conda package
+conda deactivate #to end use of conda ncbi_datasets package
 ```
+**Script C. Downloading Proteomes off UniProt.org via Command-Line**
+Input is a list of taxids or taxonomy, a Perl script from https://www.uniprot.org/help/api_downloading, and it will output reference proteomes into folders corresponding to your list of names/ids.
+
+Please save this perl script first as .pl to use in combination with the next bash script
+```{perl}
+###This is the apidownload.pl code from https://www.uniprot.org/help/api_downloading
+
+#open TextEdit on your Mac or find a text editor that can save .pl "perl script". I had to go into TextEdit Preferences, select Open and Save tab, and uncheck the "Add ".txt" extension to plain text files". From there you can paste the perl script below that I obtained from https://www.uniprot.org/help/api_downloading and save it as .pl for the extension.
+
+#These first 4 lines provide you permission to download from the cite
+use strict;
+use warnings;
+use LWP::UserAgent;
+use HTTP::Date;
+
+
+# Taxonomy identifier of top node for query, e.g. 2 for Bacteria, 2157 for Archea, etc.
+# (see https://www.uniprot.org/taxonomy)
+my $top_node = $ARGV[0];
+
+
+my $agent = LWP::UserAgent->new;
+
+# Get a list of all reference proteomes of organisms below the given taxonomy node.
+my $query_list = "https://www.uniprot.org/proteomes/?query=reference:yes+taxonomy:$top_node&format=list";
+my $response_list = $agent->get($query_list);
+die 'Failed, got ' . $response_list->status_line .
+  ' for ' . $response_list->request->uri . "\n"
+  unless $response_list->is_success;
+
+# For each proteome, mirror its set of UniProt entries in compressed FASTA format.
+for my $proteome (split(/\n/, $response_list->content)) {
+  my $file = $proteome . '.fasta.gz';
+  my $query_proteome = "https://www.uniprot.org/uniprot/?query=proteome:$proteome&format=fasta&compress=yes";
+  my $response_proteome = $agent->mirror($query_proteome, $file);
+
+  if ($response_proteome->is_success) {
+    my $results = $response_proteome->header('X-Total-Results');
+    my $release = $response_proteome->header('X-UniProt-Release');
+    my $date = sprintf("%4d-%02d-%02d", HTTP::Date::parse_date($response_proteome->header('Last-Modified')));
+    print "File $file: downloaded $results entries of UniProt release $release ($date)\n";
+  }
+  elsif ($response_proteome->code == HTTP::Status::RC_NOT_MODIFIED) {
+    print "File $file: up-to-date\n";
+  }
+  else {
+    die 'Failed, got ' . $response_proteome->status_line .
+      ' for ' . $response_proteome->request->uri . "\n";
+  }
+}
+```
+Now you are ready to run the bash script below to obtain the UniProt proteomes
+```{bash}
+#These are small .fasta reference proteomes you can download to your personal computer that it will grab corresponding to a single species whether you give it a taxonomy name or taxid
+
+#If you are using a Mac you will need certificates to download off UniProt.org. Paste the following code in your terminal.
+sudo cpan Mozilla::CA
+
+#Now create your text file with the list of queries you wish to search. These can be any level of taxonomy, family or genera or species. It can also be a list of NCBI taxids.
+cat > taxonomyandtaxids.txt
+226186
+345219
+Dubosiella newyorkensis
+Bacteroides thetaiotaomicron
+
+#Now run the for loop to grab each reference proteome for the desired taxonomy
+FILE=taxonomyandtaxids.txt
+while read line; do
+FNAM="${line/ /_}" #If your taxonomy name contains a space, here it is providing a _ where the space occurs to provide a better folder name
+mkdir -p $FNAM #-p specifies that it doesn't matter if the folder was already made
+cd $FNAM #moving to the folder where output will be saved
+perl /uniquepathtoyourperlcode/apidownload.pl $line #running the command to grab the reference proteomes, you need to change the path in this to your current path for the script
+cd .. #moving back to folder where the perl code and txt file it is reading is kept
+done <$FILE #make sure there is not a space after <
+```
+
+
 
