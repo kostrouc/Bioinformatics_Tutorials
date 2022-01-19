@@ -13,8 +13,6 @@ Ostrouchov, K. (2022). How to obtain multiple proteomes off ncbi.org and uniprot
 
 References: 
 
-Parnell LD, Lindenbaum P, Shameer K, Dall'Olio GM, Swan DC, et al. (2011) BioStar: An Online Question & Answer Resource for the Bioinformatics Community. PLoS Comput Biol 7(10): e1002216.
-
 Datasets-NCBI [Internet]. Bethesda (MD): National Library of Medicine (US), National Center for Biotechnology Information; 2021 – [cited 2022 01 15]. Available   from: https://www.ncbi.nlm.nih.gov/datasets/
 
 Dolan, K. et. al. (2017). jq. github.org. Available from: https://github.com/stedolan/jq
@@ -22,5 +20,7 @@ Dolan, K. et. al. (2017). jq. github.org. Available from: https://github.com/ste
 Ostrouchov, K., Dondrup, M. (2022). Batch Download Reference Proteomes from UniProt with Unix and Perl Example. Biostars.org. Available from: https://www.biostars.org/p/9505831/#9506542
 
 Ostrouchov, K., vkkodali, GenoMax. (2022). Parse JSON ncbi_datasets summary output. Biostars.org. Available from: https://www.biostars.org/p/9505334/#9505490
+
+Parnell LD, Lindenbaum P, Shameer K, Dall'Olio GM, Swan DC, et al. (2011) BioStar: An Online Question & Answer Resource for the Bioinformatics Community. PLoS Comput Biol 7(10): e1002216.
 
 (2020) Programmatic access - Downloading data at every UniProt release. UniProt.org . Available from: https://www.uniprot.org/help/api_downloading
