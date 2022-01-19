@@ -13,6 +13,8 @@ Ostrouchov, K. (2022). How to obtain multiple proteomes off ncbi.org and uniprot
 
 References: 
 
+Parnell LD, Lindenbaum P, Shameer K, Dall'Olio GM, Swan DC, et al. (2011) BioStar: An Online Question & Answer Resource for the Bioinformatics Community. PLoS Comput Biol 7(10): e1002216.
+
 Datasets-NCBI [Internet]. Bethesda (MD): National Library of Medicine (US), National Center for Biotechnology Information; 2021 – [cited 2022 01 15]. Available   from: https://www.ncbi.nlm.nih.gov/datasets/
 
 Dolan, K. et. al. (2017). jq. github.org. Available from: https://github.com/stedolan/jq
