@@ -4,10 +4,10 @@
 
 **SCRIPT ONE. HOW TO OBTAIN MULTIPLE PROTEOMES OFF NCBI.ORG & UNIPROT.ORG**
 
-The first script titled "ObtainingProteomesViaCommandLine" will walk you through how to download a single proteome or loop through obtaining thousands of proteomes through the command-line for reference organisms off NCBI.org and Uniprot.org.
-The input for this search to be performed can be common name, taxonomic name (family, genus, species), accession, or NCBI taxonomic ids in the form of a text file. It performs the same function as searching directly via the search bar on NCBI.org and UniProt.org. For downloading off NCBI.org the conda package ncbi_datasets is used, which can be obtained at https://www.ncbi.nlm.nih.gov/datasets/docs/v1/quickstarts/command-line-tools/ . You can obtain all the proteomes or just the reference. You can also download genomic datasets. Follow their tutorials for more information related to genomics.
+The first script titled "ObtainingProteomesViaCommandLine" walks through how to download a single proteome or loop through obtaining thousands of proteomes via the command-line for organisms off NCBI.org and Uniprot.org.
+The input for this search to be performed can be common name, taxonomic name (family, genus, species), accession, or NCBI taxonomic ids in the form of a text file. It performs the same function as searching directly via the search bar on NCBI.org and UniProt.org. For downloading off NCBI.org the conda package ncbi_datasets is used, which can be obtained at https://www.ncbi.nlm.nih.gov/datasets/docs/v1/quickstarts/command-line-tools/ . All proteomes can be obtained or just the references. Genomic datasets can also be downloaded. Follow their tutorials for more information related to genomics.
 
-Please cite if you use this script:
+Citation:
 
 Ostrouchov, K. (2022). How to obtain multiple proteomes off ncbi.org and uniprot.org. github.org. Available from: https://github.com/kostrouc/Bioinformatics_Tutorials/
 
