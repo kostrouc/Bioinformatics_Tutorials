@@ -11,6 +11,10 @@ The input for this search to be performed can be common name, taxonomic name (fa
 
 This second script titled "ParseClstrViaCommandLine.Rmd" walks through how to reformat a .clstr file obtained after performing a cd-hit job. It utilizes an R script to reformat the file such that each cluster is named on the line with it's percent sequence identity. It retains only those protein headers that had >0 clusters (meaning it keeps the lines with '*' and '%') and produces the fileparsed output. It then writes the names of each of the duplicate clusters to a file and removes duplicates generating the filedup output. This filedup output is then used to search for these specific clusters in the fileparsed output which then outputs a final fileredundancy.txt file. The redundancy file can be used to match headers using grep after searching mass spectra against a database where redundancy was removed using cd-hit to identify the sequences that match more than one protein/organism. R script utilizes a modified version for rna seq files created by Robert Murdoch in 2018 obtained from https://rpubs.com/rmurdoch/cdhit_to_mapping_file.
 
+**SCRIPT THREE. OBTAIN UNIPROT TAXONOMIC LINEAGE FOR EACH PROTEIN IN A FASTA FILE**
+
+This third script titled "ObtainUniProtProteinTaxonomicLineage.sh" will walk through how to obtain a list of the UniProt ids from the headers in a fasta file, and it will obtain the taxonomic lineage associated with each protein id in that file.
+
 Citation:
 
 Ostrouchov, K. (2022). Bioinformatic_Tutorials. github.org. Available from: https://github.com/kostrouc/Bioinformatics_Tutorials/
