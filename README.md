@@ -21,7 +21,7 @@ Datasets-NCBI [Internet]. Bethesda (MD): National Library of Medicine (US), Nati
 
 Dolan, K. et. al. (2017). jq. github.org. Available from: https://github.com/stedolan/jq
 
-Murdoch, R. (2018) cluster.mapping.rmd. rpubs.com. Available from: https://rpubs.com/rmurdoch/cdhit_to_mapping_file.
+Murdoch, R. (2018) cluster.mapping.rmd. rpubs.com. Available from: https://rpubs.com/rmurdoch/cdhit_to_mapping_file
 
 Ostrouchov, K., Dondrup, M. (2022). Batch Download Reference Proteomes from UniProt with Unix and Perl Example. Biostars.org. Available from: https://www.biostars.org/p/9505831/#9506542
 
