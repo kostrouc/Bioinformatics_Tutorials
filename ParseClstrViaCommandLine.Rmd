@@ -1,0 +1,51 @@
+###Author: Katie Ostrouchov
+###Date: April 5th, 2022
+
+This code will walk through how to reformat .clstr files in a directory and output only the headers of the sequences that had redundancy. It will retain the "*" line specifying the header that was given to the cd-hit output fasta along with the other "%" lines that specifying how much sequence redundancy there was with another protein in the original fasta file.
+
+This can be run within a folder that contains many .clstr files. The output will go to a new folder we create called newclstr. This is a time intensive process to reformat these files--so be patient!
+```{bash}
+mkdir ./newclstr/
+
+#first let's grab the .clstr files in the folder & format them correctly using an R script so we can grab only the clusters that had redundancy
+
+ls ./*.clstr > list.txt
+
+filee=list.txt
+while read this; do
+nam=$(echo $this | cut -c 3- | sed 's/......$//')
+Rscript --vanilla parseclstr.R $this ./newclstr/${nam}parsed
+done <$filee
+
+#wait for it to finish!
+
+#Now let's find all the duplicate rows & grab only the cluster number. Then let's output the unique clusters from that list. This way we are only grabbing the rows that have >0 clusters. 
+
+cd ./newclstr/
+
+ls ./*parsed > other.txt
+
+other=other.txt
+while read oth; do
+nam=$(echo $oth | cut -c 3- | sed 's/......$//' | tr -d '\r')
+tail -n +2 $oth | awk -F '\t' '{print $2}' | uniq -d | uniq -u > ${nam}dup
+done <$other
+
+#wait for it to finish!
+
+#Next let's use that list to grab only the headers that contained >0 clusters. This retains those with the "*" and "%" and will output only the lines that had redundancy.
+
+ls ./*dup > mydup.txt
+
+dup=mydup.txt
+while read hey; do
+nams=$(echo $hey | cut -c 3- | sed 's/...$//' | tr -d '\r')
+while read ano; do
+tail -n +2 ${nam}parsed | grep "$ano" >> ${nam}redundancy.txt
+done <$hey
+done <$dup
+
+#Now that we have the list of headers that clustered together after cd-hit was run, we can use that redundancy.txt file to grep for certain headers that match in our identified proteins from Proteome Discoverer. We can use the id between the two pipes to search for specific hits.
+
+
+```
