@@ -1,3 +1,7 @@
+#Title: Obtain taxonomic lineage of all UniProt proteins in fasta file
+#Author: Katie Ostrouchov
+#April 5th, 2022
+
 #The UniProt ID was extracted from the headers for each protein in a fasta file using the following bash code.
 awk -F '|' '/^>/ {printf(">%s\n",$2);}' myfasta | cut -c 2- > entry.txt
 
