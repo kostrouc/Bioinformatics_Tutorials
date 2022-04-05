@@ -13,7 +13,7 @@ This second script titled "ParseClstrViaCommandLine.Rmd" walks through how to re
 
 **SCRIPT THREE. OBTAIN UNIPROT TAXONOMIC LINEAGE FOR EACH PROTEIN IN A FASTA FILE**
 
-This third script titled "ObtainUniProtProteinTaxonomicLineage.sh" will walk through how to obtain a list of the UniProt ids from the headers in a fasta file, and it will obtain the taxonomic lineage associated with each protein id in that file.
+This third script titled "ExtractLineagefromUniProtFasta.sh" will walk through how to obtain a list of the UniProt ids from the headers in a fasta file, and it will obtain the taxonomic lineage associated with each protein id in that file.
 
 Citation:
 
