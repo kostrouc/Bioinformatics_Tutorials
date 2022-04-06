@@ -28,7 +28,7 @@ ls ./*parsed > other.txt
 other=other.txt
 while read oth; do
 nam=$(echo $oth | cut -c 3- | sed 's/......$//' | tr -d '\r')
-tail -n +2 $oth | awk -F '\t' '{print $2}' | uniq -d | uniq -u > ${nam}dup
+tail -n +2 $oth | awk -F '\t' '{print $2}' | uniq -d > ${nam}dup
 done <$other
 
 #wait for it to finish!
