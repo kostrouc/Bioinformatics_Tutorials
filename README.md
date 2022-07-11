@@ -17,7 +17,7 @@ This third script titled "ExtractLineagefromUniProtFasta.sh" will walk through h
 
 **SCRIPT FOUR. PERFORM BLASTP ALIGNMENT BETWEEN TWO FASTA FILES**
 
-"BlastP" walks through how to install blast, index a database, and perform a blastp alignment from the command-line for two fasta files.
+"BlastP.sh" walks through how to install blast, index a database, and perform a blastp alignment from the command-line for two fasta files.
 
 Citation:
 
