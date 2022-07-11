@@ -19,6 +19,10 @@ This third script titled "ExtractLineagefromUniProtFasta.sh" will walk through h
 
 "BlastP.sh" walks through how to install blast, index a database, and perform a blastp alignment from the command-line for two fasta files.
 
+**SCRIPT FIVE. PERFORM BWA MEM ALIGNMENT**
+
+"BWA-MEM_Alignment.sh" walks through how to perform a bwa mem alignment between two genomes which have highly repetitive sequences.
+
 Citation:
 
 Ostrouchov, K. (2022). Bioinformatic_Tutorials. github.org. Available from: https://github.com/kostrouc/Bioinformatics_Tutorials/
