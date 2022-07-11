@@ -15,6 +15,10 @@ This second script titled "ParseClstrViaCommandLine.Rmd" walks through how to re
 
 This third script titled "ExtractLineagefromUniProtFasta.sh" will walk through how to obtain a list of the UniProt ids from the headers in a fasta file, and it will obtain the taxonomic lineage associated with each protein id in that file.
 
+**SCRIPT FOUR. PERFORM BLASTP ALIGNMENT BETWEEN TWO FASTA FILES**
+
+"BlastP" walks through how to install blast, index a database, and perform a blastp alignment from the command-line for two fasta files.
+
 Citation:
 
 Ostrouchov, K. (2022). Bioinformatic_Tutorials. github.org. Available from: https://github.com/kostrouc/Bioinformatics_Tutorials/
